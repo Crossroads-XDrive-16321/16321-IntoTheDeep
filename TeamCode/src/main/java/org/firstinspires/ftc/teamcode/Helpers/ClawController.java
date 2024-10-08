@@ -2,8 +2,7 @@ package org.firstinspires.ftc.teamcode.Helpers;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
-// left open = 0.85, closed = 0.5
-// right open = 0.25, closed = 0.6
+// TODO: THIS IS STILL FROM LAST YEAR!
 
 public class ClawController {
 
