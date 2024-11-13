@@ -16,7 +16,8 @@ public class MecanumTeleOp extends LinearOpMode {
 
     DcMotorEx frontLeft, frontRight, backLeft, backRight, slideLeft, slideRight;
     DriveController driveController;
-    Servo armLeft; // , clawServo;
+    CRServo armServo;
+    Servo clawServo;
     boolean clawIsOpen = false;
 
     //.37 closed, .55 open
@@ -25,7 +26,7 @@ public class MecanumTeleOp extends LinearOpMode {
     Toggler toggle2 = new Toggler();
     Toggler toggle3 = new Toggler();
 
-    int slideLeftInitPos;
+    int slideLeftInitPos; // goes up 3170
     int slideRightInitPos;
     
     void initialize() {
@@ -37,9 +38,9 @@ public class MecanumTeleOp extends LinearOpMode {
         slideLeft = hardwareMap.get(DcMotorEx.class, "slideLeft");
         slideRight = hardwareMap.get(DcMotorEx.class, "slideRight");
 
-        armLeft = hardwareMap.get(Servo.class, "armLeft");
+        armServo = hardwareMap.get(CRServo.class, "armServo");
 
-//        clawServo = hardwareMap.get(Servo.class, "clawServo");
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
 
         slideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -66,32 +67,36 @@ public class MecanumTeleOp extends LinearOpMode {
 
 
             if (gamepad2.right_trigger >= 0.3) {
-                slideLeft.setPower(gamepad2.right_trigger);
-                slideRight.setPower(0.5*gamepad2.right_trigger);
+                if (slideRight.getCurrentPosition() - slideRightInitPos <= 3165) {
+//                    slideLeft.setPower(gamepad2.right_trigger);
+                    slideRight.setPower(-gamepad2.right_trigger);
+                }
             } else if (gamepad2.left_trigger >= 0.3) {
-                slideLeft.setPower(-gamepad2.left_trigger);
-                slideRight.setPower(-0.5*gamepad2.left_trigger);
+                if (slideRight.getCurrentPosition() - slideRightInitPos >= 5) {
+//                    slideLeft.setPower(-gamepad2.left_trigger);
+                    slideRight.setPower(gamepad2.left_trigger);
+                }
             } else {
-                slideLeft.setPower(0);
-                slideRight.setPower(0);
+//                slideLeft.setPower(-0.1);
+                slideRight.setPower(-0.1);
             }
 
-            if (toggle2.toggle(gamepad2.right_bumper)) {
-                armLeft.setPosition(armLeft.getPosition()-0.1);
+            if (gamepad2.right_stick_y > 0.3) {
+                armServo.setPower(-1);
+            } else if (gamepad2.right_stick_y < -0.3) {
+                armServo.setPower(1);
+            } else {
+                armServo.setPower(0);
             }
 
-            if (toggle3.toggle(gamepad2.left_bumper)) {
-                armLeft.setPosition(armLeft.getPosition()+0.1);
+            if (toggle1.toggle(gamepad2.a)) {
+                if (clawIsOpen) {
+                    clawServo.setPosition(0.37);
+                } else {
+                    clawServo.setPosition(0.55);
+                }
+                clawIsOpen = !clawIsOpen;
             }
-
-//            if (toggle1.toggle(gamepad2.a)) {
-//                if (clawIsOpen) {
-//                    clawServo.setPosition(0.37);
-//                } else {
-//                    clawServo.setPosition(0.55);
-//                }
-//                clawIsOpen = !clawIsOpen;
-//            }
 
 
             telemetry.addData("SlideLeftInitPos:", slideLeftInitPos);
@@ -106,8 +111,8 @@ public class MecanumTeleOp extends LinearOpMode {
 
             telemetry.addLine("");
 
-            telemetry.addData("Arm Left:", armLeft.getPosition());
-//            telemetry.addData("Claw Servo:", clawServo.getPosition());
+//            telemetry.addData("Arm Servo:", armServo.getPosition());
+            telemetry.addData("Claw Servo:", clawServo.getPosition());
 
             telemetry.update();
 
