@@ -32,7 +32,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class TuningOpModes {
-    // TODO: change this to TankDrive.class if you're using tank
     public static final Class<?> DRIVE_CLASS = MecanumDrive.class;
 
     public static final String GROUP = "quickstart";
@@ -86,12 +85,12 @@ public final class TuningOpModes {
                         MecanumDrive.PARAMS.maxProfileAccel,
                         hardwareMap.getAll(LynxModule.class),
                         Arrays.asList(
-                                md.leftFront,
-                                md.leftBack
+                                md.frontLeft,
+                                md.backLeft
                         ),
                         Arrays.asList(
-                                md.rightFront,
-                                md.rightBack
+                                md.frontRight,
+                                md.backRight
                         ),
                         leftEncs,
                         rightEncs,
