@@ -59,6 +59,7 @@ public class AutoOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         initialize();
+        waitForStart();
         driveController.right(4.0f, driveSpeed); //this should go 4 tiles to the right
 
 
