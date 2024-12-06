@@ -16,7 +16,7 @@ public class MecanumTeleOp extends LinearOpMode {
 
     DcMotorEx frontLeft, frontRight, backLeft, backRight, slideLeft, slideRight;
     DriveController driveController;
-    Servo armServo;
+    CRServo armServo;
     Servo clawServo;
     boolean clawIsOpen = false;
 
@@ -38,7 +38,7 @@ public class MecanumTeleOp extends LinearOpMode {
         slideLeft = hardwareMap.get(DcMotorEx.class, "slideLeft");
         slideRight = hardwareMap.get(DcMotorEx.class, "slideRight");
 
-        armServo = hardwareMap.get(Servo.class, "armServo");
+        armServo = hardwareMap.get(CRServo.class, "armServo");
 
         clawServo = hardwareMap.get(Servo.class, "clawServo");
 
@@ -81,26 +81,28 @@ public class MecanumTeleOp extends LinearOpMode {
                 slideRight.setPower(-0.1);
             }
 
-//            if (gamepad2.right_stick_y > 0.3) {
-//                armServo.setPower(armServo.getPower() - .01);
-//            } else if (gamepad2.right_stick_y < -0.3) {
-//                armServo.setPower(armServo.getPower() + .01);
+//            if (gamepad2.right_bumper) {
+//                armServo.setPower(0);
+//            } else if (gamepad2.left_bumper) {
+//                armServo.setPower(1);
 //            } else {
-//                armServo.setPower(armServo.getPower());
+//                armServo.setPower(0.5);
 //            }
 
-            if (gamepad2.b) {
-                armServo.setPosition(0.9);
-            }
-            if (gamepad2.x) {
-                armServo.setPosition(0.57);
-            }
+            armServo.setPower(-gamepad2.right_stick_y+0.05);
+
+//            if (gamepad2.b) {
+//                armServo.setPosition(0.9);
+//            }
+//            if (gamepad2.x) {
+//                armServo.setPosition(0.57);
+//            }
 
             if (toggle1.toggle(gamepad2.a)) {
                 if (clawIsOpen) {
-                    clawServo.setPosition(0.37);
+                    clawServo.setPosition(0.28);
                 } else {
-                    clawServo.setPosition(0.55);
+                    clawServo.setPosition(0.45);
                 }
                 clawIsOpen = !clawIsOpen;
             }
@@ -120,7 +122,6 @@ public class MecanumTeleOp extends LinearOpMode {
 
 //            telemetry.addData("Arm Servo:", armServo.getPosition());
             telemetry.addData("Claw Servo:", clawServo.getPosition());
-            telemetry.addData("Arm Servo:", armServo.getPosition());
 
             telemetry.update();
 
