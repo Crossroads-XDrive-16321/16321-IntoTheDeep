@@ -18,7 +18,8 @@ public class MecanumTeleOp extends LinearOpMode {
     DriveController driveController;
     CRServo armServo;
     Servo clawServo;
-    boolean clawIsOpen = false;
+    boolean clawIsOpen = true;
+    double speedFactor = 1;
 
     //.37 closed, .55 open
 
@@ -62,7 +63,13 @@ public class MecanumTeleOp extends LinearOpMode {
 
         while (!isStopRequested()) {
 
-            driveController.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, 1);
+            if(slideRight.getCurrentPosition()-slideRightInitPos > 1000) {
+                speedFactor = 0.6;
+            } else {
+                speedFactor = 1.0;
+            }
+
+            driveController.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, speedFactor*(1-(gamepad1.right_trigger*0.7)));
 
 
 
@@ -81,28 +88,15 @@ public class MecanumTeleOp extends LinearOpMode {
                 slideRight.setPower(-0.1);
             }
 
-//            if (gamepad2.right_bumper) {
-//                armServo.setPower(0);
-//            } else if (gamepad2.left_bumper) {
-//                armServo.setPower(1);
-//            } else {
-//                armServo.setPower(0.5);
-//            }
 
             armServo.setPower(-gamepad2.right_stick_y+0.05);
 
-//            if (gamepad2.b) {
-//                armServo.setPosition(0.9);
-//            }
-//            if (gamepad2.x) {
-//                armServo.setPosition(0.57);
-//            }
 
             if (toggle1.toggle(gamepad2.a)) {
                 if (clawIsOpen) {
-                    clawServo.setPosition(0.28);
+                    clawServo.setPosition(0.24);
                 } else {
-                    clawServo.setPosition(0.45);
+                    clawServo.setPosition(0.37);
                 }
                 clawIsOpen = !clawIsOpen;
             }
@@ -122,6 +116,11 @@ public class MecanumTeleOp extends LinearOpMode {
 
 //            telemetry.addData("Arm Servo:", armServo.getPosition());
             telemetry.addData("Claw Servo:", clawServo.getPosition());
+
+            telemetry.addData("frontLeft", frontLeft.getCurrentPosition());
+            telemetry.addData("frontRight", frontRight.getCurrentPosition());
+            telemetry.addData("backLeft", backLeft.getCurrentPosition());
+            telemetry.addData("backRight", backRight.getCurrentPosition());
 
             telemetry.update();
 

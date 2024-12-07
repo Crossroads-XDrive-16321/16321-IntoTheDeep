@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Helpers.DriveController;
 import org.firstinspires.ftc.teamcode.Helpers.Toggler;
 
 @Autonomous
-public class threeNeutralToGroundBasket extends LinearOpMode {
+public class park extends LinearOpMode {
 
     DcMotorEx frontLeft, frontRight, backLeft, backRight, slideLeft, slideRight;
     DriveController driveController;
@@ -51,6 +51,8 @@ public class threeNeutralToGroundBasket extends LinearOpMode {
         slideLeftInitPos = slideLeft.getCurrentPosition();
         slideRightInitPos = slideRight.getCurrentPosition();
 
+
+
         driveController = new DriveController(frontLeft, backLeft, frontRight, backRight);
         driveController.init();
     }
@@ -64,18 +66,8 @@ public class threeNeutralToGroundBasket extends LinearOpMode {
         //coordinates: bottom left at basket = (0,0), top right at opposing basket = (6,6)
         //START POSITION: (1+1/2, 3/8)
 
-        driveController.forwards(2+1/8f, driveSpeed);
-        driveController.left(1/2f, driveSpeed);
-        driveController.turnRight(20f, rotateSpeed);
-        driveController.backwards(2f, driveSpeed);
-
-        driveController.forwards(2f, driveSpeed);
-        driveController.left(1/2f, driveSpeed);
-        driveController.backwards(2f, driveSpeed);
-
-        driveController.forwards(2f, driveSpeed);
-        driveController.left(3/8f, driveSpeed);
-        driveController.backwards(2f, driveSpeed);
+        clawServo.setPosition(0.24);
+        driveController.right(3f, driveSpeed);
 
 
 

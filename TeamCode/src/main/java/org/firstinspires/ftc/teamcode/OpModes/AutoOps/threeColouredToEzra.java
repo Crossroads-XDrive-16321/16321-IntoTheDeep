@@ -20,7 +20,7 @@ public class threeColouredToEzra extends LinearOpMode {
     boolean clawIsOpen = false;
 
 
-    double driveSpeed = .25;
+    double driveSpeed = .6;
     double rotateSpeed = .5;
 
     //.37 closed, .55 open
@@ -67,6 +67,7 @@ public class threeColouredToEzra extends LinearOpMode {
         driveController.right(3/8f, driveSpeed);
         driveController.forwards(2+1/8f, driveSpeed);
         driveController.right(1f, driveSpeed);
+        driveController.turnLeft(20f, rotateSpeed);
         driveController.backwards(2f, driveSpeed);
 
         driveController.forwards(2f, driveSpeed);
