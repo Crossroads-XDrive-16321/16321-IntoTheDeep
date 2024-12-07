@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Helpers.DriveController;
 import org.firstinspires.ftc.teamcode.Helpers.Toggler;
 
 @Autonomous
-public class AutoOp extends LinearOpMode {
+public class threeColouredToEzra extends LinearOpMode {
 
     DcMotorEx frontLeft, frontRight, backLeft, backRight, slideLeft, slideRight;
     DriveController driveController;
@@ -60,7 +60,24 @@ public class AutoOp extends LinearOpMode {
 
         initialize();
         waitForStart();
-        driveController.right(4.0f, driveSpeed); //this should go 4 tiles to the right
+
+        //coordinates: bottom left at basket = (0,0), top right at opposing basket = (6,6)
+        //START POSITION: (4, 3/8)
+
+        driveController.right(3/8f, driveSpeed);
+        driveController.forwards(2+1/8f, driveSpeed);
+        driveController.right(1f, driveSpeed);
+        driveController.backwards(2f, driveSpeed);
+
+        driveController.forwards(2f, driveSpeed);
+        driveController.right(1/2f, driveSpeed);
+        driveController.backwards(2f, driveSpeed);
+
+        driveController.forwards(2f, driveSpeed);
+        driveController.right(1/2f, driveSpeed);
+        driveController.backwards(2f, driveSpeed);
+
+
 
 
     }
