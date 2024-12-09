@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Helpers.DriveController;
 import org.firstinspires.ftc.teamcode.Helpers.Toggler;
+import org.firstinspires.ftc.teamcode.Helpers.ClawController;
 
 
 @TeleOp
@@ -16,6 +17,7 @@ public class MecanumTeleOp extends LinearOpMode {
 
     DcMotorEx frontLeft, frontRight, backLeft, backRight, slideLeft, slideRight;
     DriveController driveController;
+    ClawController clawController;
     CRServo armServo;
     Servo clawServo;
     boolean clawIsOpen = true;
@@ -49,6 +51,7 @@ public class MecanumTeleOp extends LinearOpMode {
         slideRightInitPos = slideRight.getCurrentPosition();
 
         driveController = new DriveController(frontLeft, backLeft, frontRight, backRight);
+        clawController = new ClawController(clawServo);
         driveController.init();
 
     }
@@ -92,14 +95,7 @@ public class MecanumTeleOp extends LinearOpMode {
             armServo.setPower(-gamepad2.right_stick_y+0.05);
 
 
-            if (toggle1.toggle(gamepad2.a)) {
-                if (clawIsOpen) {
-                    clawServo.setPosition(0.24);
-                } else {
-                    clawServo.setPosition(0.37);
-                }
-                clawIsOpen = !clawIsOpen;
-            }
+            clawController.checkAndToggleClaw(gamepad2.a);
 
 
             telemetry.addData("SlideLeftInitPos:", slideLeftInitPos);
