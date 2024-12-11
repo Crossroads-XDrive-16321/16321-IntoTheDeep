@@ -8,8 +8,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Helpers.DriveController;
+import org.firstinspires.ftc.teamcode.Helpers.SlideController;
 import org.firstinspires.ftc.teamcode.Helpers.Toggler;
 import org.firstinspires.ftc.teamcode.Helpers.ClawController;
+
+//TODO: ports 0 and 3 on REV hubs are more accurate at high speeds and should be used for the parallel dead wheels.
 
 
 @TeleOp
@@ -17,20 +20,12 @@ public class MecanumTeleOp extends LinearOpMode {
 
     DcMotorEx frontLeft, frontRight, backLeft, backRight, slideLeft, slideRight;
     DriveController driveController;
+    SlideController slideController;
     ClawController clawController;
     CRServo armServo;
     Servo clawServo;
-    boolean clawIsOpen = true;
+
     double speedFactor = 1;
-
-    //.37 closed, .55 open
-
-    Toggler toggle1 = new Toggler();
-    Toggler toggle2 = new Toggler();
-    Toggler toggle3 = new Toggler();
-
-    int slideLeftInitPos; // goes up 3170
-    int slideRightInitPos;
     
     void initialize() {
         frontLeft = hardwareMap.get(DcMotorEx.class, "frontLeft");
@@ -47,8 +42,8 @@ public class MecanumTeleOp extends LinearOpMode {
 
         slideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        slideLeftInitPos = slideLeft.getCurrentPosition();
-        slideRightInitPos = slideRight.getCurrentPosition();
+        slideController = new SlideController(slideLeft, slideRight);
+        slideController.initialize();
 
         driveController = new DriveController(frontLeft, backLeft, frontRight, backRight);
         clawController = new ClawController(clawServo);
@@ -66,47 +61,24 @@ public class MecanumTeleOp extends LinearOpMode {
 
         while (!isStopRequested()) {
 
-            if(slideRight.getCurrentPosition()-slideRightInitPos > 1000) {
-                speedFactor = 0.6;
-            } else {
-                speedFactor = 1.0;
-            }
+            speedFactor = slideController.setPowers(gamepad2.left_trigger, gamepad2.right_trigger);
 
             driveController.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, speedFactor*(1-(gamepad1.right_trigger*0.7)));
 
-
-
-            if (gamepad2.right_trigger >= 0.3) {
-//                if (slideRight.getCurrentPosition() - slideRightInitPos <= 3165) {
-                    slideLeft.setPower(-gamepad2.right_trigger);
-                    slideRight.setPower(-gamepad2.right_trigger);
-//                }
-            } else if (gamepad2.left_trigger >= 0.3) {
-//                if (slideRight.getCurrentPosition() - slideRightInitPos >= 5) {
-                    slideLeft.setPower(gamepad2.left_trigger);
-                    slideRight.setPower(gamepad2.left_trigger);
-//                }
-            } else {
-                slideLeft.setPower(-0.1);
-                slideRight.setPower(-0.1);
-            }
-
-
-            armServo.setPower(-gamepad2.right_stick_y+0.05);
-
+            armServo.setPower(-gamepad2.right_stick_y);
 
             clawController.checkAndToggleClaw(gamepad2.a);
 
 
-            telemetry.addData("SlideLeftInitPos:", slideLeftInitPos);
+//            telemetry.addData("SlideLeftInitPos:", slideLeftInitPos);
             telemetry.addData("SlideLeftCurrentPos:", slideLeft.getCurrentPosition());
-            telemetry.addData("SlideLeftDiff:", slideLeft.getCurrentPosition()-slideLeftInitPos);
+//            telemetry.addData("SlideLeftDiff:", slideLeft.getCurrentPosition()-slideLeftInitPos);
 
             telemetry.addLine("");
 
-            telemetry.addData("SlideRightInitPos:", slideRightInitPos);
+//            telemetry.addData("SlideRightInitPos:", slideRightInitPos);
             telemetry.addData("SlideRightCurrentPos:", slideRight.getCurrentPosition());
-            telemetry.addData("SlideRightDiff:", slideRight.getCurrentPosition()-slideRightInitPos);
+//            telemetry.addData("SlideRightDiff:", slideRight.getCurrentPosition()-slideRightInitPos);
 
             telemetry.addLine("");
 
