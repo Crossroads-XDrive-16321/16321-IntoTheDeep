@@ -21,12 +21,13 @@ public class MeepMeepTesting {
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(12, -60, Math.toRadians(90f)))
 
 
-                        .lineTo(new Vector2d(0, -32)) //WHILE ROTATING ARM INTO SCORING POS
+                        .setTangent(Math.toRadians(90))
+                        .splineToConstantHeading(new Vector2d(0, -32), Math.toRadians(90)) //WHILE ROTATING ARM INTO SCORING POS
                         //-----
                         //SCORE SPECIMEN
                         //-----
                         .setTangent(Math.toRadians(-45))
-                        .splineToConstantHeading(new Vector2d(28, -36), Math.toRadians(0f))
+                        .splineToConstantHeading(new Vector2d(28, -38), Math.toRadians(0f))
 
                         .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90f))
                         .splineToConstantHeading(new Vector2d(46, -12), Math.toRadians(-90f))
@@ -73,9 +74,9 @@ public class MeepMeepTesting {
                         //DROP SPECIMEN
                         //-----
                         .setTangent(Math.toRadians(-90))
-                        .splineToConstantHeading(new Vector2d(36, -60), Math.toRadians(-90))
+                        .splineToConstantHeading(new Vector2d(50, -60), Math.toRadians(0))
 
-                        //PARK
+                        .waitSeconds(8.06f)//PARK
 
 
                         .build());
@@ -86,12 +87,13 @@ public class MeepMeepTesting {
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-12, 60, Math.toRadians(-90f)))
 
 
-                        .lineTo(new Vector2d(0, 32)) //WHILE ROTATING ARM INTO SCORING POS
+                        .setTangent(Math.toRadians(-90))
+                        .splineToConstantHeading(new Vector2d(0, 32), Math.toRadians(-90)) //WHILE ROTATING ARM INTO SCORING POS
                         //-----
                         //SCORE SPECIMEN
                         //-----
                         .setTangent(Math.toRadians(135f))
-                        .splineToConstantHeading(new Vector2d(-28, 36), Math.toRadians(180f))
+                        .splineToConstantHeading(new Vector2d(-28, 38), Math.toRadians(180f))
 
                         .splineToConstantHeading(new Vector2d(-36, 12), Math.toRadians(-90f))
                         .splineToConstantHeading(new Vector2d(-46, 12), Math.toRadians(90f))
@@ -138,9 +140,9 @@ public class MeepMeepTesting {
                         //DROP SPECIMEN
                         //-----
                         .setTangent(Math.toRadians(90))
-                        .splineToConstantHeading(new Vector2d(-36, 60), Math.toRadians(90))
+                        .splineToConstantHeading(new Vector2d(-50, 60), Math.toRadians(180))
 
-                        //PARK
+                        .waitSeconds(8.06f)//PARK
 
 
                         .build());
@@ -149,9 +151,11 @@ public class MeepMeepTesting {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setColorScheme(new ColorSchemeRedLight())
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
-                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-12, -60, Math.toRadians(90f)))
+                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-18, -60, Math.toRadians(90f)))
 
-                        .lineTo(new Vector2d(-8, -32)) //WHILE ROTATING ARM INTO SCORING POS
+                        .waitSeconds(2)
+                        .setTangent(Math.toRadians(90))
+                        .splineToConstantHeading(new Vector2d(-8, -32), Math.toRadians(90)) //WHILE ROTATING ARM INTO SCORING POS
                         //-----
                         .setTangent(Math.toRadians(-90))
                         .splineToConstantHeading(new Vector2d(-48,-36), Math.toRadians(90))
@@ -170,12 +174,13 @@ public class MeepMeepTesting {
                         .setTangent(Math.toRadians(-90))
                         .splineToConstantHeading(new Vector2d(-61, -48), Math.toRadians(-90f))
                         //-----
-                        .setTangent(Math.toRadians(90))
-                        .splineToLinearHeading(new Pose2d(-30, 0, Math.toRadians(0)), Math.toRadians(0))
+                        .setTangent(Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(-30, -10, Math.toRadians(0)), Math.toRadians(0))
                         //-----
                         //SLOW DOWN WHILE APPROACHING TO NOT BREAK ARM HAHAHA
                         //-----
                         .forward(6f)
+                        .waitSeconds(14.71f)//PARK
 
                         .build());
 
@@ -183,9 +188,11 @@ public class MeepMeepTesting {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setColorScheme(new ColorSchemeBlueLight())
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
-                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(12, 60, Math.toRadians(-90f)))
+                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(18, 60, Math.toRadians(-90f)))
 
-                        .lineTo(new Vector2d(8, 32)) //WHILE ROTATING ARM INTO SCORING POS
+                        .waitSeconds(2)
+                        .setTangent(Math.toRadians(-90))
+                        .splineToConstantHeading(new Vector2d(8, 32), Math.toRadians(-90)) //WHILE ROTATING ARM INTO SCORING POS
                         //-----
                         .setTangent(Math.toRadians(90))
                         .splineToConstantHeading(new Vector2d(48,36), Math.toRadians(-90))
@@ -204,12 +211,13 @@ public class MeepMeepTesting {
                         .setTangent(Math.toRadians(90))
                         .splineToConstantHeading(new Vector2d(61, 48), Math.toRadians(90f))
                         //-----
-                        .setTangent(Math.toRadians(-90))
-                        .splineToLinearHeading(new Pose2d(30, 0, Math.toRadians(180)), Math.toRadians(180))
+                        .setTangent(Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(30, 10, Math.toRadians(180)), Math.toRadians(180))
                         //-----
                         //SLOW DOWN WHILE APPROACHING TO NOT BREAK ARM HAHAHA
                         //-----
                         .forward(6f)
+                        .waitSeconds(14.71f)//PARK
 
                         .build());
 
@@ -221,8 +229,8 @@ public class MeepMeepTesting {
                 .setBackgroundAlpha(0.95f)
                 .addEntity(redSpecimen)
                 .addEntity(blueSpecimen)
-//                .addEntity(redBasket)
-//                .addEntity(blueBasket)
+                .addEntity(redBasket)
+                .addEntity(blueBasket)
                 .start();
     }
 }
