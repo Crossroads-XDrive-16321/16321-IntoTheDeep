@@ -65,7 +65,11 @@ public class MecanumTeleOp extends LinearOpMode {
 
             driveController.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, speedFactor*(1-(gamepad1.right_trigger*0.7)));
 
-            armServo.setPower(-gamepad2.right_stick_y);
+            if(Math.abs(gamepad2.right_stick_y) > 0.2) {
+                armServo.setPower(-gamepad2.right_stick_y);
+            } else {
+                armServo.setPower(0.06);
+            }
 
             clawController.checkAndToggleClaw(gamepad2.a);
 
