@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Helpers;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class SlideController {
@@ -39,6 +40,15 @@ public class SlideController {
 
         return speedFactor;
 
+    }
+
+    public void setSlidePos(double height, double power) {
+        slideRight.setTargetPosition((int) (slideRightInitPos + height));
+        slideLeft.setTargetPosition((int) (slideLeftInitPos + height));
+        slideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slideRight.setPower(power);
+        slideLeft.setPower(power);
     }
 
 }

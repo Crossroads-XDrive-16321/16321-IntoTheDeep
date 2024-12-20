@@ -10,7 +10,7 @@ public class DriveController {
 
 
     double tilesToPos = 1025; //
-    double degreesToPos = 8.3; //
+    double degreesToPos = 9.7; //
 
 
     public DriveController(DcMotorEx frontLeft, DcMotorEx backLeft, DcMotorEx frontRight, DcMotorEx backRight) {
