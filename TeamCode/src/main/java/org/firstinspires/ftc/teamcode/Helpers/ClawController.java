@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ClawController {
 
     final double clawOpenPos = 0.25f;
-    final double clawClosedPos = 0.05f;
+    final double clawClosedPos = 0.03f;
 
 
 //    public enum ClawPosition {
