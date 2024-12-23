@@ -19,12 +19,10 @@ public class SlideController {
         slideRightInitPos = slideRight.getCurrentPosition();
     }
 
-    public double setPowers(double leftTrigger, double rightTrigger) {
+    public void setPowers(double leftTrigger, double rightTrigger) {
 
         if(slideRight.getCurrentPosition()-slideRightInitPos > 1000) {
             speedFactor = (1-(4000f/(slideRight.getCurrentPosition()-slideRightInitPos)));
-        } else {
-            speedFactor = 1.0;
         }
 
         if (rightTrigger >= 0.3) {
@@ -37,8 +35,6 @@ public class SlideController {
             slideLeft.setPower(-0.1);
             slideRight.setPower(-0.1);
         }
-
-        return speedFactor;
 
     }
 

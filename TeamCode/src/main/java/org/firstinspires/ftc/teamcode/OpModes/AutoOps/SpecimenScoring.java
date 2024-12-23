@@ -17,8 +17,8 @@ public class SpecimenScoring extends LinearOpMode {
 
     DcMotorEx frontLeft, frontRight, backLeft, backRight, slideLeft, slideRight;
     DriveController driveController;
-    CRServo armServo;
-    Servo clawServo;
+//    CRServo armServo;
+    Servo clawServo, armServo;
     SlideController slideController;
     ClawController clawController;
     boolean clawIsOpen = false;
@@ -41,7 +41,9 @@ public class SpecimenScoring extends LinearOpMode {
         slideLeft = hardwareMap.get(DcMotorEx.class, "slideLeft");
         slideRight = hardwareMap.get(DcMotorEx.class, "slideRight");
 
-        armServo = hardwareMap.get(CRServo.class, "armServo");
+//        armServo = hardwareMap.get(CRServo.class, "armServo");
+        armServo = hardwareMap.get(Servo.class, "armServo");
+
 
         clawServo = hardwareMap.get(Servo.class, "clawServo");
 
@@ -62,30 +64,22 @@ public class SpecimenScoring extends LinearOpMode {
         initialize();
         waitForStart();
 
-        telemetry.addData("left pos", slideLeft.getCurrentPosition());
-        telemetry.addData("left target", slideLeft.getTargetPosition());
         clawController.closeClaw();
-        armServo.setPower(-0.5);
+        armServo.setPosition(0.45);
         driveController.backwards(0.5, driveSpeed);
         driveController.turnRight(180, rotateSpeed);
-        driveController.left(1, driveSpeed);
-        armServo.setPower(0.06);
-        driveController.forwards(0.2, driveSpeed);
-        telemetry.addData("left pos", slideLeft.getCurrentPosition());
-        telemetry.addData("left target", slideLeft.getTargetPosition());
+        driveController.left(0.75, driveSpeed);
         slideController.setPowers(0f, slideSpeed);
-        telemetry.addData("left pos", slideLeft.getCurrentPosition());
-        telemetry.addData("left target", slideLeft.getTargetPosition());
         sleep(750);
         slideController.setPowers(0f, 0f);
-        driveController.forwards(0.22, driveSpeed/2);
+        driveController.forwards(0.55, driveSpeed/2);
         slideController.setPowers(slideSpeed, 0f);
-        telemetry.addData("left pos", slideLeft.getCurrentPosition());
-        telemetry.addData("left target", slideLeft.getTargetPosition());
         sleep(750);
         slideController.setPowers(0f, 0f);
         clawController.openClaw();
-        driveController.backwards(0.4, driveSpeed);
+        driveController.backwards(2, driveSpeed);
+        armServo.setPosition(0.19);
+        driveController.right(2, driveSpeed);
 
     }
 }
