@@ -22,8 +22,11 @@ public class MecanumTeleOp extends LinearOpMode {
     DriveController driveController;
     SlideController slideController;
     ClawController clawController;
-    CRServo armServo;
-    Servo clawServo;
+//    CRServo armServo;
+    Servo clawServo, armServo; // Armservo positions: 0.45 scoring, 0.18 ground, __ from wall
+
+    Toggler toggler1 = new Toggler();
+    Toggler toggler2 = new Toggler();
 
     double speedFactor = 1;
     
@@ -36,7 +39,8 @@ public class MecanumTeleOp extends LinearOpMode {
         slideLeft = hardwareMap.get(DcMotorEx.class, "slideLeft");
         slideRight = hardwareMap.get(DcMotorEx.class, "slideRight");
 
-        armServo = hardwareMap.get(CRServo.class, "armServo");
+//        armServo = hardwareMap.get(CRServo.class, "armServo");
+        armServo = hardwareMap.get(Servo.class, "armServo");
 
         clawServo = hardwareMap.get(Servo.class, "clawServo");
 
@@ -61,14 +65,17 @@ public class MecanumTeleOp extends LinearOpMode {
 
         while (!isStopRequested()) {
 
-            speedFactor = slideController.setPowers(gamepad2.left_trigger, gamepad2.right_trigger);
+            speedFactor = 1.0f;
+
+            slideController.setPowers(gamepad2.left_trigger, gamepad2.right_trigger);
 
             driveController.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, speedFactor*(1-(gamepad1.right_trigger*0.7)));
 
-            if(Math.abs(gamepad2.right_stick_y) > 0.2) {
-                armServo.setPower(-gamepad2.right_stick_y);
-            } else {
-                armServo.setPower(0.06);
+            if(toggler1.toggle(gamepad2.b)) {
+                armServo.setPosition(0.45);
+            }
+            if (toggler2.toggle(gamepad2.x)) {
+                armServo.setPosition(0.19);
             }
 
             clawController.checkAndToggleClaw(gamepad2.a);
@@ -86,7 +93,7 @@ public class MecanumTeleOp extends LinearOpMode {
 
             telemetry.addLine("");
 
-//            telemetry.addData("Arm Servo:", armServo.getPosition());
+            telemetry.addData("Arm Servo:", armServo.getPosition());
             telemetry.addData("Claw Servo:", clawServo.getPosition());
 
             telemetry.addData("frontLeft", frontLeft.getCurrentPosition());
