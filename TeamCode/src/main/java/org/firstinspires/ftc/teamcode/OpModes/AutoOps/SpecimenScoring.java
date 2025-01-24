@@ -77,9 +77,34 @@ public class SpecimenScoring extends LinearOpMode {
         sleep(750);
         slideController.setPowers(0f, 0f);
         clawController.openClaw();
-        driveController.backwards(1, driveSpeed);
+        driveController.backwards(0.15, driveSpeed);
         armServo.setPosition(0.19);
-        driveController.right(2, driveSpeed);
+        driveController.turnRight(170f, rotateSpeed);
+        driveController.left(2f, driveSpeed);
+        sleep(500);
+        driveController.turnRight(30f, rotateSpeed);
+        driveController.forwards(1, driveSpeed/3f);
+        clawController.closeClaw();
+        sleep(750);
+        driveController.backwards(0.1f, driveSpeed/3f);
+        armServo.setPosition(0.45);
+        driveController.turnRight(180, rotateSpeed);
+        driveController.left(2.2f, driveSpeed);
+//        driveController.turnRight(20f, rotateSpeed);
+        slideController.setPowers(0f, slideSpeed);
+        sleep(750);
+        slideController.setPowers(0f, 0f);
+        driveController.turnRight(10f,rotateSpeed);
+        driveController.forwards(0.35, driveSpeed/2);
+        slideController.setPowers(slideSpeed, 0f);
+        sleep(750);
+        slideController.setPowers(0f, 0f);
+        clawController.openClaw();
+        driveController.backwards(1f, driveSpeed);
+        driveController.right(3f, driveSpeed);
+
+
+
 
     }
 }
