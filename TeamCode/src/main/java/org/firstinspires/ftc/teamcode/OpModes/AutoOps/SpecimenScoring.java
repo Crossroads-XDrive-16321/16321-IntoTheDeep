@@ -81,7 +81,7 @@ public class SpecimenScoring extends LinearOpMode {
         armServo.setPosition(0.19);
         driveController.turnRight(170f, rotateSpeed);
         driveController.left(2f, driveSpeed);
-        sleep(500);
+        sleep(2000);
         driveController.turnRight(30f, rotateSpeed);
         driveController.forwards(1, driveSpeed/3f);
         clawController.closeClaw();
