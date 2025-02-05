@@ -27,6 +27,7 @@ public class MecanumTeleOp extends LinearOpMode {
 
     Toggler toggler1 = new Toggler();
     Toggler toggler2 = new Toggler();
+    Toggler toggler3 = new Toggler();
 
     double speedFactor = 1;
     
@@ -77,6 +78,10 @@ public class MecanumTeleOp extends LinearOpMode {
             if (toggler2.toggle(gamepad2.x)) {
                 armServo.setPosition(0.19);
             }
+            if (toggler3.toggle(gamepad2.y)) {
+                armServo.setPosition(1);
+            }
+
 
             clawController.checkAndToggleClaw(gamepad2.a);
 
