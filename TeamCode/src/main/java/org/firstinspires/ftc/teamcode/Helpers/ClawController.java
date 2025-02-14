@@ -4,6 +4,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 // TODO: started adapting to into the deep, still mostly from center stage
 
+
+
+
+
+//TODO: EXTENDO ARM SERVO IS IN CONTROL HUB PORT 4
+
 public class ClawController {
 
     final double clawOpenPos = 0.25f;
