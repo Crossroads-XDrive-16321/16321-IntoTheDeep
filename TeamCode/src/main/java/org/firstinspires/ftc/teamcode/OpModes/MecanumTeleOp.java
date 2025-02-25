@@ -28,6 +28,11 @@ public class MecanumTeleOp extends LinearOpMode {
     Toggler toggler1 = new Toggler();
     Toggler toggler2 = new Toggler();
     Toggler toggler3 = new Toggler();
+    Toggler toggler4 = new Toggler();
+    Toggler toggler5 = new Toggler();
+
+
+    float slidePowerSetter = 0.0f;
 
     double speedFactor = 1;
     
@@ -68,7 +73,15 @@ public class MecanumTeleOp extends LinearOpMode {
 
             speedFactor = 1.0f;
 
-            slideController.setPowers(gamepad2.left_trigger, gamepad2.right_trigger);
+            if(toggler4.toggle(gamepad2.dpad_down)) {
+                slidePowerSetter -= 0.2;
+            }
+
+            if(toggler5.toggle(gamepad2.dpad_up)) {
+                slidePowerSetter += 0.2;
+            }
+
+            slideController.setPowers(gamepad2.left_trigger - slidePowerSetter, gamepad2.right_trigger + slidePowerSetter);
 
             driveController.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, speedFactor*(1-(gamepad1.right_trigger*0.7)));
 
@@ -76,7 +89,7 @@ public class MecanumTeleOp extends LinearOpMode {
                 armServo.setPosition(0.45);
             }
             if (toggler2.toggle(gamepad2.x)) {
-                armServo.setPosition(0.19);
+                armServo.setPosition(0.18);
             }
             if (toggler3.toggle(gamepad2.y)) {
                 armServo.setPosition(1);
@@ -105,6 +118,8 @@ public class MecanumTeleOp extends LinearOpMode {
             telemetry.addData("frontRight", frontRight.getCurrentPosition());
             telemetry.addData("backLeft", backLeft.getCurrentPosition());
             telemetry.addData("backRight", backRight.getCurrentPosition());
+
+            telemetry.addData("slideSetter", slidePowerSetter);
 
             telemetry.update();
 
